@@ -29,7 +29,7 @@ function MedicoCard({ medico }) {
       <h2 className="text-blue-950 text-2xl font-bold  fonts-sans ml-[50px] ">{medicoNome}</h2>
 
       <div className="flex justify-center items-center ">
-      <p className="flex justify-center items-center text-blue-950 text-lg font-sans ml-[350px] ">{especialidade}</p>
+      <p className="flex justify-center items-center text-blue-950 text-lg font-sans ml-[400px] ">{especialidade}</p>
       </div>
 
       <button className="text-blue-950 text-2xl ml-[400px]" onClick={() => (window.location.href = "/infoMedico")}>+</button>
