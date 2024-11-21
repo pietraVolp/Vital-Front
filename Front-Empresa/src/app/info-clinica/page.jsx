@@ -1,8 +1,75 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import NavBarLayout from "@/components/layout/NavBarLayout";
-import Image from "next/image"; // Ajuste o caminho conforme necessário
+
+export async function getEmpresa (id) {
+    const url = `https://vital-back-geh2haera4f5hzfb.brazilsouth-01.azurewebsites.net/v1/vital/empresa/${id}`
+    const response = await fetch(url)
+    const data = await response.json()
+    return data.empresa[0]
+ }
+
+ function EmpresaCard({ empresa }) {
+   
+    const medicoImg = medico.foto_medico|| "Sem imagem";
+    const medicoNome = medico.nome_medico|| "Médico não definido";
+    const especialidade = medico.especialidade || "Especialidade não definida";
+    
+    return (
+      <div
+      className="bg-zinc-200 rounded-lg w-[1200px] h-[70px] p-4 " 
+      onClick={() => (window.location.href = "/consultas")}
+    >
+        
+     <img src={medicoImg} className="rounded-full w-[50px] h-[50px] ml-[20px] mt-[-5px] " />
+
+      <div className="flex justify-center items-center mt-[-40px] ">
+      <h2 className="text-blue-950 text-2xl font-bold  fonts-sans ml-[50px] ">{medicoNome}</h2>
+
+      <div className="flex justify-center items-center ">
+      <p className="flex justify-center items-center text-blue-950 text-lg font-sans ml-[350px] ">{especialidade}</p>
+      </div>
+
+      <button className="text-blue-950 text-2xl ml-[400px]" onClick={() => (window.location.href = "/infoMedico")}>+</button>
+      </div>
+  
+  
+    </div>
+     
+    );
+  }
+  
+
+  export default function Medicos() {
+    const [openModal, setOpenModal] = useState(false);
+    const [medicos, setMedicos] = useState([]);
+
+    useEffect(() => {
+        async function carregarMedicos() {
+            try {
+                const dados = await getMedico();
+                if (Array.isArray(dados)) {
+                    setMedicos(dados);
+                } else {
+                    console.error('getMedico não retornou um array:', dados);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar médicos:', error);
+            }
+        }
+
+        carregarMedicos();
+    }, []);
+  }
+
+
+
 
 export default function Inicio() {
     return (
+
+
         <div className="flex">
             <NavBarLayout>
             

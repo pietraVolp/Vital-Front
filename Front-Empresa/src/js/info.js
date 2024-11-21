@@ -20,3 +20,11 @@ export async function getConsulta (id) {
     const data = await response.json()
     return data.consulta[0]
  }
+
+ export async function getEmpresa (id) {
+    const url = `https://vital-back-geh2haera4f5hzfb.brazilsouth-01.azurewebsites.net/v1/vital/empresa/${id}`
+    const response = await fetch(url)
+    const data = await response.json()
+    return data.empresa[0]
+ }
+

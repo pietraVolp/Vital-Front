@@ -12,34 +12,29 @@ export async function getMedico(){
 }
 
 function MedicoCard({ medico }) {
-    const especialidadeImg = medico.especialidade?.[0]?.imagem_url || "Imagem não encontrada";
-    const especialidade = medico.especialidade?.[0]?.nome || "Especialidade não definida";
-    const medicoImg = medico.medico?.[0]?.foto_medico || "Sem imagem";
-    const medicoNome = consulta.medico?.[0]?.nome_medico || "Médico não definido";
-    const descricao = consulta.detalhes_consulta || "Descrição não disponível";
-    const dia = new Date(consulta.dias_consulta).toLocaleDateString();
-    const horario = new Date(consulta.horas_consulta).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  
+   
+    const medicoImg = medico.foto_medico|| "Sem imagem";
+    const medicoNome = medico.nome_medico|| "Médico não definido";
+    const especialidade = medico.especialidade || "Especialidade não definida";
+    
     return (
       <div
-      className="bg-zinc-200 rounded-lg w-[280px] h-[400px] p-4"
+      className="bg-zinc-200 rounded-lg w-[1200px] h-[70px] p-4 " 
       onClick={() => (window.location.href = "/consultas")}
     >
-      <img src={especialidadeImg} className=""/>
-  
-      
-      <p className="text-blue-950 text-xl font-bold font-sans justify-center items-center flex ">{especialidade}</p>
-      <p className="text-blue-950 justify-center items-center flex ">{descricao}</p>
-      
-      <div className="flex mt-[20px]">
-      <img src={medicoImg} className="rounded-full w-[50px] h-[50px] ml-[10px]" />
-      <h2 className="text-blue-950 text-lg font-bold ml-[10px] fonts-sans mt-[10px]">{medicoNome}</h2>
+        
+     <img src={medicoImg} className="rounded-full w-[50px] h-[50px] ml-[20px] mt-[-5px] " />
+
+      <div className="flex justify-center items-center mt-[-40px] ">
+      <h2 className="text-blue-950 text-2xl font-bold  fonts-sans ml-[50px] ">{medicoNome}</h2>
+
+      <div className="flex justify-center items-center ">
+      <p className="flex justify-center items-center text-blue-950 text-lg font-sans ml-[350px] ">{especialidade}</p>
+      </div>
+
+      <button className="text-blue-950 text-2xl ml-[400px]" onClick={() => (window.location.href = "/infoMedico")}>+</button>
       </div>
   
-      <div className="flex mt-[10px]">
-      <p className="text-blue-950 ml-[20px] font-bold">Dia:  {dia}</p>
-      <p className="text-blue-950 ml-[20px] font-bold">Horário:  {horario}</p>
-      </div>
   
     </div>
      
@@ -101,13 +96,16 @@ function MedicoCard({ medico }) {
 
                     <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} />
 
-                    <div className="mt-20 ml-[300px] grid">
-                        <div id="contanierMedico" className="gap-4 w-[1100px] h-[1700px]"></div>
+                    <div className="mt-20 grid">
+                    <div
+                        id="contanierMedico"
+                        className="flex flex-wrap gap-x-12 gap-y-5 justify-center"
+                    >
                         {medicos.map((medico, index) => (
-                <MedicoCard key={index} medico={medico} />
-              ))}
+                        <MedicoCard key={index} medico={medico} />
+                        ))}
                     </div>
-
+                    </div>
                 </div>
             </NavBarLayout>
         </div>
