@@ -1,8 +1,19 @@
 "use client";
 import NavBarLayout from "@/components/layout/NavBarLayout";
 import Modal from "@/components/Modal";
-import { getConsultas } from "@/js/info";
 import { useState, useEffect, useRef } from "react";
+
+async function getConsultas() {
+    try {
+      const response = await fetch("https://vital-back-geh2haera4f5hzfb.brazilsouth-01.azurewebsites.net/v1/vital/consulta");
+      if (!response.ok) throw new Error("Erro ao buscar dados");
+      const data = await response.json();
+      return data.consultas || [];
+    } catch (error) {
+      console.error("Erro ao buscar consultas:", error);
+      return [];
+    }
+  }
 
 function criarCard(consulta) {
     const card = document.createElement('div');
@@ -43,7 +54,7 @@ function Consultas() {
 
     useEffect(() => {
         async function preencherContainer() {
-            const contanierConsulta = contanierConsulta.current;
+
 
             if (!contanierConsulta) return;
 

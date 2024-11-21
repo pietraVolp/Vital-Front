@@ -32,7 +32,7 @@ async function buscarConsultas(term) {
 // Função para criar o card do React (sem manipulação direta do DOM)
 function ConsultaCard({ consulta }) {
   const especialidade = consulta.especialidade?.[0]?.nome || "Especialidade não definida";
-  const medicoNome = consulta.medico_nome || "Médico não definido";
+  const medicoNome = consulta.medico?.[0]?.nome_medico || "Médico não definido";
   const descricao = consulta.detalhes_consulta || "Descrição não disponível";
   const dia = new Date(consulta.dias_consulta).toLocaleDateString();
   const horario = new Date(consulta.horas_consulta).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
