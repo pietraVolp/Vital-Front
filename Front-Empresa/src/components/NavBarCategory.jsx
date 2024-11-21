@@ -22,7 +22,7 @@ export default function NavBarCategory({ category, images, title }) {
 
     return (
         <Link href={category} className={actualPage() }>
-            <Image src={images} className="w-8" alt={title} />
+            <Image src={images} alt={title}  className={`{$customImageClass} w-10 h-10`} />
             {/* Título estilizado */}
             <span className="text-xl  text-White hover:text-blue-950 ml-4">
                 {title}

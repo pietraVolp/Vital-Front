@@ -2,20 +2,38 @@
 
 import NavBarLayout from "@/components/layout/NavBarLayout";
 import { useEffect, useState } from "react";
-import { getConsultas } from "@/js/info";
 
+// Função para pegar as consultas da API
+async function getConsultas() {
+  try {
+    const response = await fetch("https://vital-umqy.onrender.com/v1/vital/consulta");
+    if (!response.ok) throw new Error("Erro ao buscar dados");
+    const data = await response.json();
+    return data.consultas || [];
+  } catch (error) {
+    console.error("Erro ao buscar consultas:", error);
+    return [];
+  }
+}
+
+// Função para criar um card com os dados da consulta
 function criarCard(consulta) {
   const card = document.createElement('div');
   card.classList.add(
     'bg-zinc-200',
     'rounded-lg',
     'w-[300px]',
-    'h-[200px]'
+    'h-[250px]',
+    'p-4'
   );
 
-  const especialidade = document.createElement('p');
-  especialidade.textContent = consulta.nome_especialidade;
-  especialidade.classList.add(
+  const especialidade = consulta.especialidade && consulta.especialidade[0] 
+    ? consulta.especialidade[0].nome
+    : "Especialidade não definida";
+
+  const especialidadeElement = document.createElement('p');
+  especialidadeElement.textContent = especialidade;
+  especialidadeElement.classList.add(
     'text-blue-950',
     'text-xl',
     'font-bold',
@@ -23,8 +41,12 @@ function criarCard(consulta) {
     'ml-[20px]'
   );
 
+  const medicoNome = consulta.medico && consulta.medico[0] 
+    ? consulta.medico[0].nome
+    : "Médico não definido";
+
   const nomeMedico = document.createElement('h2');
-  nomeMedico.textContent = consulta.nome_medico;
+  nomeMedico.textContent = `Médico: ${medicoNome}`;
   nomeMedico.classList.add(
     'text-blue-950',
     'text-lg',
@@ -41,24 +63,22 @@ function criarCard(consulta) {
 
   const dias = document.createElement('p');
   const diasData = new Date(consulta.dias_consulta);
-  if (!isNaN(diasData)) {
-    dias.textContent = "Dia: " + diasData.toLocaleDateString();
-  } else {
-    dias.textContent = "Dia: " + consulta.dias_consulta;
-  }
+  dias.textContent = "Dia: " + diasData.toLocaleDateString();
   dias.classList.add(
     'text-blue-950',
     'ml-[20px]'
   );
 
   const horario = document.createElement('p');
-  horario.textContent = "Horário: " + consulta.horas_consulta.slice(11,19);
+  const hora = new Date(consulta.horas_consulta);
+  horario.textContent = "Horário: " + hora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   horario.classList.add(
     'text-blue-950',
     'ml-[20px]'
   );
 
-  card.append(especialidade, nomeMedico, detalhes, dias, horario);
+  card.append(especialidadeElement, nomeMedico, detalhes, dias, horario);
+
   card.addEventListener('click', () => {
     window.location.href = '/consultas';
   });
@@ -66,13 +86,17 @@ function criarCard(consulta) {
   return card;
 }
 
-async function preencherContainer(searchTerm) {
+// Função para preencher o container com os cards
+async function preencherContainer(searchTerm, setConsultas, setLoading) {
+  setLoading(true); // Inicia o carregamento
   const contanierConsulta = document.getElementById('contanierConsulta');
   contanierConsulta.innerHTML = ''; // Limpa o contêiner antes de renderizar novos resultados
 
+  // Se não houver pesquisa, carrega todas as consultas
   const consultas = searchTerm ? await buscarConsultas(searchTerm) : await getConsultas();
 
-  // Verifica se `consultas` é um array antes de usar `forEach`
+  setConsultas(consultas); // Atualiza o estado de consultas
+
   if (Array.isArray(consultas)) {
     consultas.forEach(consulta => {
       const card = criarCard(consulta);
@@ -81,13 +105,17 @@ async function preencherContainer(searchTerm) {
   } else {
     console.error("Erro: `consultas` não é um array.");
   }
+
+  setLoading(false); // Finaliza o carregamento
 }
 
+// Função para buscar consultas com base no termo de pesquisa
 async function buscarConsultas(term) {
   try {
-    const response = await fetch(getConsultas());
+    const response = await fetch(`https://vital-umqy.onrender.com/v1/vital/consulta?search=${term}`);
     if (!response.ok) throw new Error("Erro ao buscar dados");
-    return await response.json();
+    const data = await response.json();
+    return data.consultas || [];
   } catch (error) {
     console.error("Erro ao buscar consultas:", error);
     return [];
@@ -96,13 +124,20 @@ async function buscarConsultas(term) {
 
 export default function Inicio() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [consultas, setConsultas] = useState([]); // Estado para armazenar as consultas
+  const [loading, setLoading] = useState(false); // Estado de carregamento
 
+  // Preenche o container com os dados ao carregar o componente
   useEffect(() => {
-    preencherContainer();
-  }, []);
+    if (consultas.length === 0 && !loading) { // Preencher somente se o estado `consultas` estiver vazio
+      preencherContainer('', setConsultas, setLoading); // Preenche ao inicializar
+    }
+  }, [consultas, loading]); // Condição para evitar chamadas múltiplas
 
   const handleSearch = () => {
-    preencherContainer(searchTerm);
+    // Limpar consultas antes de buscar novos dados
+    setConsultas([]); // Limpa o estado antes de buscar
+    preencherContainer(searchTerm, setConsultas, setLoading); // Busca com o termo de pesquisa
   };
 
   return (

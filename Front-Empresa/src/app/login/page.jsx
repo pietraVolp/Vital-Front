@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Swal from "sweetalert2";
+
+
 
 const Login = () => {
   const [cnpj, setCnpj] = useState("");
@@ -8,7 +11,12 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (cnpj.trim() === "" || senha.trim() === "") {
-      alert("Por favor, preencha todos os campos!");
+      Swal.fire({
+        icon: "warning",
+        title: "Campos Vazios",
+        text: "Por favor, preencha todos os campos!",
+        confirmButtonColor: "#3085d6",
+      });
       return;
     }
 
@@ -24,15 +32,31 @@ const Login = () => {
       const result = await response.json();
 
       if (response.ok && result.status_code === 200) {
-        localStorage.setItem("idC", result.id_empresa);
-        console.log(result.id_empresa);
-        window.location.href = "/inicio";
+        localStorage.setItem("userData", JSON.stringify(result));
+        Swal.fire({
+          icon: "success",
+          title: "Login Realizado",
+          text: "Bem-vindo",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          window.location.href = "/inicio";
+        });
       } else {
-        alert(result.message || "Ocorreu um erro inesperado.");
+        Swal.fire({
+          icon: "error",
+          title: "Erro no Login",
+          text: result.message || "Ocorreu um erro inesperado.",
+          confirmButtonColor: "#d33",
+        });
       }
     } catch (error) {
       console.error(error);
-      alert("Erro ao tentar fazer login. Por favor, tente novamente.");
+      Swal.fire({
+        icon: "error",
+        title: "Erro de Conexão",
+        text: "Erro ao tentar fazer login. Por favor, tente novamente.",
+        confirmButtonColor: "#d33",
+      });
     }
   };
 
@@ -80,14 +104,14 @@ const Login = () => {
             placeholder="Digite sua senha aqui ..."
             className="shadow-2xl w-3/4 h-16 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={senha}
-            onChange={(e) => setSenha(e.target.value)} // Correção
+            onChange={(e) => setSenha(e.target.value)}
           />
         </div>
 
         <div className="mt-20 mb-10 ml-40">
           <button
             className="bg-blue-900 text-white rounded-3xl w-80 h-14 text-2xl"
-            onClick={handleLogin} // Associando a função de login
+            onClick={handleLogin}
           >
             ENTRAR
           </button>

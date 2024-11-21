@@ -13,12 +13,6 @@ export async function getMedico(){
     return data.medicos
 }
 
-export async function getConsultas(){
-    const url = `https://vital-back-geh2haera4f5hzfb.brazilsouth-01.azurewebsites.net/v1/vital/consulta`
-    const response = await fetch(url)
-    const data = await response.json()
-    return data.consultas
-}
 
 export async function getConsulta (id) {
     const url = `https://vital-back-geh2haera4f5hzfb.brazilsouth-01.azurewebsites.net/v1/vital/consulta/${id}`

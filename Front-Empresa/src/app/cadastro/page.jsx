@@ -264,7 +264,7 @@ const togglePasswordVisibility = () => {
                                 />
                                 <img 
                                     onClick={togglePasswordVisibility} 
-                                    src={showPassword ? "./img/eye_closed.png" : "./img/eye_open.png"} 
+                                    src={showPassword ? "./img/eye_open.png" : "./img/eye_closed.png"} 
                                     alt={showPassword ? "Ocultar senha" : "Mostrar senha"} 
                                     className="absolute w-5 top-1/2 right-4 transform -translate-y-1/2 cursor-pointer" 
                                 />
