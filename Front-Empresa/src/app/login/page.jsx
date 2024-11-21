@@ -91,7 +91,7 @@ const Login = () => {
             value={cnpj}
             onChange={(e) => setCnpj(e.target.value)}
           />
-          <img src="./img/empresa.png" alt="Hospital" className="absolute ml-72 mt-[-70px]" />
+          <img src="./img/EmpresaLogin.png" alt="Hospital" className="absolute ml-72 mt-[-70px]" />
         </div>
 
         <div className="mt-14 ml-32">
