@@ -1,4 +1,5 @@
 
+import { getConsultas } from '@/js/info'; // Exemplo de função para conexão ao banco
 
 export default async (req, res) => {
   const { query } = req.query;

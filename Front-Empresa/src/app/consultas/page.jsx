@@ -39,11 +39,11 @@ function criarCard(consulta) {
 
 function Consultas() {
     const [openModal, setOpenModal] = useState(false);
-    
+    const contanierConsultaRef = useRef(null);
 
     useEffect(() => {
         async function preencherContainer() {
-            const contanierConsulta = contanierConsulta.current;
+            const contanierConsulta = contanierConsultaRef.current;
 
             if (!contanierConsulta) return;
 
@@ -85,7 +85,7 @@ function Consultas() {
                     <div className="flex mt-20 ml-[300px] grid">
                         <div
                             id="contanierConsulta"
-
+                            ref={contanierConsultaRef}
                             className="flex flex-wrap gap-4 w-[1100px] h-[100px]">
                         </div>
                     </div>

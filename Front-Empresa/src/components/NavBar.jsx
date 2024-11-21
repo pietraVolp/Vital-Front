@@ -35,7 +35,7 @@ const NavBar = () => {
 
       <ul className="mt-[1px] pt-20 " id="categoria">
         {/* Links da NavBar */}
-        <NavBarCategory category={"/info-clinica"} images={infoImg} title={empresa || "Nome da Cliníca"} customImageClass="w-24 h-16"/>
+        <NavBarCategory category={"/info-clinica"} images={infoImg} title={empresa || "Nome da Cliníca"} customImageClass="w-16 h-16"/>
         <NavBarCategory category={"/inicio"} images={inicioImg} title={"Ínicio"} />
         <NavBarCategory category={"/consultas"} images={consultaImg} title={"Consultas"} />
         <NavBarCategory category={"/doutores"} images={doutorImg} title={"Doutores"} />
