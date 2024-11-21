@@ -157,27 +157,47 @@ export default function Inicio() {
   
     // Thumbnail ou ícone de vídeo
     const videoFrame = document.createElement("div");
-    videoFrame.classList.add("w-full", "h-[180px]", "relative", "bg-black", "flex", "items-center", "justify-center");
+    videoFrame.classList.add(
+      "w-full",
+      "h-[180px]",
+      "relative",
+      "bg-black",
+      "flex",
+      "items-center",
+      "justify-center",
+      "overflow-hidden",
+      "rounded-md"
+    );
   
+    // Thumbnail do vídeo ou imagem padrão
+    const thumbnail = document.createElement("img");
+    thumbnail.src = video.thumbnail_url || "/img/default-thumbnail.png"; // Imagem padrão se não houver thumbnail
+    thumbnail.alt = video.titulo_video || "Thumbnail do vídeo";
+    thumbnail.classList.add("w-full", "h-full", "object-cover", "cursor-pointer");
+  
+    // Ícone de play
     const playIcon = document.createElement("img");
-    playIcon.src = "/img/play-icon.png"; // Substitua pelo ícone desejado
+    playIcon.src = "/img/play-icon.png"; // Ícone de play
     playIcon.alt = "Play";
-    playIcon.classList.add("w-[50px]", "h-[50px]", "cursor-pointer");
+    playIcon.classList.add("absolute", "w-[50px]", "h-[50px]", "cursor-pointer");
+  
+    // Adiciona a thumbnail e o ícone de play ao videoFrame
+    videoFrame.appendChild(thumbnail);
     videoFrame.appendChild(playIcon);
   
-    // Redirecionar para a URL do vídeo ao clicar no ícone
+    // Redirecionar para a URL do vídeo ao clicar no ícone de play
     playIcon.addEventListener("click", () => {
       window.open(video.url_video, "_blank");
     });
   
     // Título do vídeo
     const titulo = document.createElement("h2");
-    titulo.textContent = video.titulo_video;
+    titulo.textContent = video.titulo_video || "Título não disponível";
     titulo.classList.add("text-blue-950", "text-lg", "font-bold", "mt-2");
   
     // Descrição do vídeo
     const descricao = document.createElement("p");
-    descricao.textContent = video.descricao_video;
+    descricao.textContent = video.descricao_video || "Descrição não disponível";
     descricao.classList.add("text-gray-700", "mt-1");
   
     // Monta o card
@@ -185,6 +205,8 @@ export default function Inicio() {
   
     return card;
   }
+  
+  
   
 
   async function preencherGaleria() {
