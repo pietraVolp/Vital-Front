@@ -183,7 +183,7 @@ const CadastroConsultas = () => {
 
   return (
     <div>
-      <button className='bg-[--font] w-[25vh] h-[5vh] rounded-full ml-[130vh] mt-[10vh] text-white font-bold' onClick={() => setModalOpen(true)}>CADASTRAR CONSULTA +  </button>
+      <button className='bg-[--font] w-[25vh] h-[5vh] rounded-full ml-[135vh] mt-[] text-white font-bold' onClick={() => setModalOpen(true)}>CADASTRAR CONSULTA +  </button>
       <Modal 
         isOpen={isModalOpen} 
         setModalOpen={setModalOpen} 
