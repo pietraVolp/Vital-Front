@@ -35,10 +35,22 @@ function criarCard(consulta) {
   card.classList.add(
     'bg-zinc-200',
     'rounded-lg',
-    'w-[300px]',
+    'w-[500px]',
     'h-[250px]',
     'p-4'
   );
+
+  const imgEspecialidade = consulta.especialidade && consulta.especialidade[0] 
+  ? consulta.especialidade[0].imagem_url
+  : "Especialidade não definida";
+
+const especialidadeImg = document.createElement('img');
+especialidadeImg.url = imgEspecialidade;
+especialidadeImg.classList.add(
+  'w-2'
+);
+
+
 
   const especialidade = consulta.especialidade && consulta.especialidade[0] 
     ? consulta.especialidade[0].nome
@@ -53,6 +65,18 @@ function criarCard(consulta) {
     'font-sans',
     'ml-[20px]'
   );
+
+  const imgMedico = consulta.medico && consulta.medico[0]
+  ? consulta.medico[0].foto_medico
+  :"Médico não encontrado";
+
+  const medicoImg = document.createElement('img');
+  medicoImg.url = imgMedico
+  medicoImg.classList.add(
+    'ml-10'
+  )
+
+
 
   const medicoNome = consulta.medico && consulta.medico[0] 
     ? consulta.medico[0].nome
@@ -90,7 +114,7 @@ function criarCard(consulta) {
     'ml-[20px]'
   );
 
-  card.append(especialidadeElement, nomeMedico, detalhes, dias, horario);
+  card.append(especialidadeImg, especialidadeElement, medicoImg, nomeMedico, detalhes, dias, horario);
 
   card.addEventListener('click', () => {
     window.location.href = '/consultas';
@@ -134,6 +158,43 @@ async function buscarConsultas(term) {
     return [];
   }
 }
+
+
+// Função para criar o card do React (sem manipulação direta do DOM)
+function ConsultaCard({ consulta }) {
+  const especialidadeImg = consulta.especialidade?.[0]?.imagem_url || "Imagem não encontrada";
+  const especialidade = consulta.especialidade?.[0]?.nome || "Especialidade não definida";
+  const medicoImg = consulta.medico?.[0]?.foto_medico || "Sem imagem";
+  const medicoNome = consulta.medico?.[0]?.nome_medico || "Médico não definido";
+  const descricao = consulta.detalhes_consulta || "Descrição não disponível";
+  const dia = new Date(consulta.dias_consulta).toLocaleDateString();
+  const horario = new Date(consulta.horas_consulta).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  return (
+    <div
+      className="bg-zinc-200 rounded-lg w-[280px] h-[400px] p-4"
+      onClick={() => (window.location.href = "/consultas")}
+    >
+      <img src={especialidadeImg} className=""/>
+
+      
+      <p className="text-blue-950 text-xl font-bold font-sans justify-center items-center flex ">{especialidade}</p>
+      <p className="text-blue-950 justify-center items-center flex ">{descricao}</p>
+      
+      <div className="flex mt-[20px]">
+      <img src={medicoImg} className="rounded-full w-[50px] h-[50px] ml-[10px]" />
+      <h2 className="text-blue-950 text-lg font-bold ml-[10px] fonts-sans mt-[10px]">{medicoNome}</h2>
+      </div>
+
+      <div className="flex mt-[10px]">
+      <p className="text-blue-950 ml-[20px] font-bold">Dia:  {dia}</p>
+      <p className="text-blue-950 ml-[20px] font-bold">Horário:  {horario}</p>
+      </div>
+
+    </div>
+  );
+}
+
 
 export default function Inicio() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -240,11 +301,18 @@ export default function Inicio() {
 
   useEffect(() => {
     if (consultas.length === 0 && !loading) {
-      preencherContainer("", setConsultas, setLoading); // Preenche consultas
+      preencherConsultas();
+      preencherGaleria();
     }
-    preencherGaleria(); // Preenche galeria
   }, [consultas, loading]);
   
+  const preencherConsultas = async () => {
+    setLoading(true);
+    const dados = searchTerm ? await buscarConsultas(searchTerm) : await getConsultas();
+    setConsultas(dados);
+    setLoading(false);
+  };
+
   const handleSearch = () => {
     setConsultas([]);
     preencherContainer(searchTerm, setConsultas, setLoading);
@@ -260,25 +328,28 @@ export default function Inicio() {
             <input
               type="text"
               placeholder="Pesquisar..."
-              className="bg-[--navempresa] pl-3 pr-10 py-2 ml-[60vh] mt-[50px] rounded-full w-96 h-14 border focus:border-blue-900 focus:bg-blue-5 transition-all"
+              className="bg-[--navempresa] pl-3 pr-10 py-2 ml-[60vh] mt-[30px] rounded-full w-96 h-14 border focus:border-blue-900 focus:bg-blue-5 transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button onClick={handleSearch} className="absolute right-[70vh] top-[58px]">
+            <button onClick={handleSearch} className="absolute right-[70vh] top-[48px]">
               <img src="./img/lupa.png" alt="Buscar" className="w-7" />
             </button>
           </div>
 
           <div>
-            <h1 className="text-2xl font-bold text-[--font] ml-[80px] mt-[50px]">CONSULTAS</h1>
+            <h1 className="text-2xl font-bold text-[--font] ml-[80px] mt-[30px]">CONSULTAS</h1>
           </div>
 
-          <div className="flex mt-10 ml-[80px] grid overflow-x-scroll">
-            <div id="contanierConsulta" className="flex space-x-4 gap-4 w-[1100px] h-[230px]"></div>
+          <div className="flex mt-[30px] ml-[80px] grid overflow-x-scroll w-[1520px]">
+            <div id="contanierConsulta" className=" flex space-x-4 gap-4 mb-[20px]">
+              {consultas.map((consulta, index) => (
+                <ConsultaCard key={index} consulta={consulta} />
+              ))}
+            </div>
           </div>
-          
 
-          <div className="Galeria">
+          <div>
             <h1 className="text-2xl font-bold text-[--font] ml-[80px] mt-[50px]">GALERIA</h1>
           </div>
         </div>
