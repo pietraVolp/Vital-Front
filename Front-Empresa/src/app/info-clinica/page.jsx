@@ -24,25 +24,25 @@ function EmpresaCard({ empresa }) {
   return (
     <div className="bg-blue-300 w-[700px] h-[700px] items-center rounded-lg ml-[370px]">
       <div className="flex justify-center items-center">
-        <h2 className="font-bold font-sans text-3xl text-blue-900 mt-5">
-          Informações sobre empresa
+        <h2 className="font-bold font-sans text-3xl text-blue-900 mt-12">
+          INFORMAÇÕES DA EMPRESA
         </h2>
       </div>
 
       <div className="flex ml-[16vh] mt-[6vh]">
         <img src="./img/EmpresaLogin.png" alt="" className="w-20" />
-        <h1 className="text-2xl text-gray-500 mt-7 ml-[80px]">{nomeEmpresa}</h1>
+        <h1 className="text-2xl text-gray-500 mt-7 ml-[60px]">{nomeEmpresa}</h1>
       </div>
 
       <div className="flex ml-[19vh] mt-5">
         <img src="./img/identificacao.png" alt="" className="w-14" />
-        <h1 className="text-2xl text-gray-500 mt-3 ml-[80px]">{cnpj}</h1>
+        <h1 className="text-2xl text-gray-500 mt-3 ml-[60px]">{cnpj}</h1>
       </div>
 
       <div className="flex">
         <div className="flex ml-[19vh] mt-5">
           <img src="./img/local.png" alt="" className="h-9" />
-          <h1 className="text-2xl text-gray-500 mt-2 ml-[88px]">{cidade}, </h1>
+          <h1 className="text-2xl text-gray-500 mt-2 ml-[68px]">{cidade}, </h1>
         </div>
         <div className="flex  mt-5">
           <h1 className="text-2xl text-gray-500 mt-2 ml-1">{estado}</h1>
@@ -51,28 +51,28 @@ function EmpresaCard({ empresa }) {
 
       <div className="flex ml-[19vh] mt-5">
         <img src="./img/fone.png" alt="" className="h-7" />
-        <h1 className="text-2xl text-gray-500 mt-2 ml-[100px]">{telefoneEmpresa}</h1>
+        <h1 className="text-2xl text-gray-500 mt-2 ml-[80px]">{telefoneEmpresa}</h1>
       </div>
 
-      <div className="h-40 w-96 bg-white mt-10 ml-36 rounded-lg">
+      <div className="h-40 w-3/5 bg-white mt-10 ml-40 rounded-lg">
         <div className="bg-white w-5 h-5 rounded-lg"></div>
         <div className="flex ml-5">
-          <img src="./img/pessoa.icon.png" alt="" className="h-8" />
-          <h1 className="text-gray-500 text-xl mt-1 ml-32">{nomeProprietario}</h1>
+          <img src="./img/pessoa.icon.png" alt="" className="h-8 ml-[20px]" />
+          <h1 className="text-gray-500 text-xl mt-1 ml-24">{nomeProprietario}</h1>
         </div>
 
         <div className="flex mt-5 ml-5">
-          <img src="./img/email.png" alt="" className="h-6" />
-          <h1 className="text-gray-500 text-xl mt-1 ml-32">{email}</h1>
+          <img src="./img/email.png" alt="" className="h-6 ml-[20px]" />
+          <h1 className="text-gray-500 text-xl mt-1 ml-24">{email}</h1>
         </div>
 
         <div className="flex mt-5 ml-5">
-          <img src="./img/fone.png" alt="" className="h-6" />
-          <h1 className="text-gray-500 text-xl mt-1 ml-32">{telefone}</h1>
+          <img src="./img/fone.png" alt="" className="h-6 ml-[20px]"  />
+          <h1 className="text-gray-500 text-xl mt-1 ml-24">{telefone}</h1>
         </div>
       </div>
 
-     <button className="bg-[--font] text-base w-[100px] rounded-full">EDITAR</button>
+     <button className="bg-blue-900 text-base w-[200px] h-[40px] ml-[260px] mt-[20px] text-white rounded-full">EDITAR</button>
 
 
     </div>
